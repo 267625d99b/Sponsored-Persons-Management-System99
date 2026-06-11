@@ -25,7 +25,7 @@ import AdminManagement from '../components/AdminManagement';
 
 const { Sider, Content } = Layout;
 
-// --- ظ…ظƒظˆظ† ط­ط§ظ„ط© ط§ظ„ظ†ط¸ط§ظ… (System Health) ---
+// --- مكون حالة النظام (System Health) ---
 const SystemHealth = ({ backups, emailStatus }: { backups: any[], emailStatus: any }) => {
   const totalStorage = backups.reduce((sum, b) => sum + b.fileSize, 0);
   
@@ -36,8 +36,8 @@ const SystemHealth = ({ backups, emailStatus }: { backups: any[], emailStatus: a
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <div className="health-status-dot" style={{ color: '#10b981' }} />
             <div>
-              <div style={{ fontSize: 12, color: '#94a3b8' }}>ظ‚ط§ط¹ط¯ط© ط§ظ„ط¨ظٹط§ظ†ط§طھ</div>
-              <div style={{ fontWeight: 600 }}>ظ…طھطµظ„ط© (SQLite)</div>
+              <div style={{ fontSize: 12, color: '#94a3b8' }}>قاعدة البيانات</div>
+              <div style={{ fontWeight: 600 }}>متصلة (SQLite)</div>
             </div>
           </div>
         </Col>
@@ -45,8 +45,8 @@ const SystemHealth = ({ backups, emailStatus }: { backups: any[], emailStatus: a
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <div className="health-status-dot" style={{ color: emailStatus.configured ? '#10b981' : '#f59e0b' }} />
             <div>
-              <div style={{ fontSize: 12, color: '#94a3b8' }}>ط®ط¯ظ…ط© ط§ظ„ط¨ط±ظٹط¯</div>
-              <div style={{ fontWeight: 600 }}>{emailStatus.configured ? 'ط¬ط§ظ‡ط²ط©' : 'ط؛ظٹط± ظ…ظڈط¹ط¯ط©'}</div>
+              <div style={{ fontSize: 12, color: '#94a3b8' }}>خدمة البريد</div>
+              <div style={{ fontWeight: 600 }}>{emailStatus.configured ? 'جاهزة' : 'غير مُعدة'}</div>
             </div>
           </div>
         </Col>
@@ -54,7 +54,7 @@ const SystemHealth = ({ backups, emailStatus }: { backups: any[], emailStatus: a
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <Cpu size={18} style={{ color: '#3b82f6' }} />
             <div>
-              <div style={{ fontSize: 12, color: '#94a3b8' }}>ط¥طµط¯ط§ط± ط§ظ„ظ†ط¸ط§ظ…</div>
+              <div style={{ fontSize: 12, color: '#94a3b8' }}>إصدار النظام</div>
               <div style={{ fontWeight: 600 }}>v2.1.0-Stable</div>
             </div>
           </div>
@@ -63,7 +63,7 @@ const SystemHealth = ({ backups, emailStatus }: { backups: any[], emailStatus: a
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <HardDrive size={18} style={{ color: '#8b5cf6' }} />
             <div>
-              <div style={{ fontSize: 12, color: '#94a3b8' }}>ظ…ط³ط§ط­ط© ط§ظ„ظ†ط³ط®</div>
+              <div style={{ fontSize: 12, color: '#94a3b8' }}>مساحة النسخ</div>
               <div style={{ fontWeight: 600 }}>{(totalStorage / 1024).toFixed(1)} KB</div>
             </div>
           </div>
@@ -73,21 +73,21 @@ const SystemHealth = ({ backups, emailStatus }: { backups: any[], emailStatus: a
   );
 };
 
-// --- ظ…ظƒظˆظ† ط§ظ„ظ…ط¹ط§ظٹظ†ط© ط§ظ„ظپظˆط±ظٹط© (Live Preview) ---
+// --- مكون المعاينة الفورية (Live Preview) ---
 const LivePreview = ({ values }: { values: any }) => {
   return (
     <div className="preview-card">
-      <div className="preview-badge"><Eye size={12} style={{ marginLeft: 6 }} /> ظ…ط¹ط§ظٹظ†ط© ط§ظ„ظ‡ظˆظٹط©</div>
+      <div className="preview-badge"><Eye size={12} style={{ marginLeft: 6 }} /> معاينة الهوية</div>
       <div style={{ marginBottom: 20 }}>
-        <div style={{ fontSize: 12, color: '#64748b', marginBottom: 4 }}>ط§ط³ظ… ط§ظ„ظ…ط¤ط³ط³ط© ظپظٹ ط§ظ„طھظ‚ط§ط±ظٹط±:</div>
-        <div style={{ fontSize: 20, fontWeight: 800, color: '#1e3a5f' }}>{values?.organizationName || 'ط§ط³ظ… ط§ظ„ظ…ط¤ط³ط³ط©'}</div>
+        <div style={{ fontSize: 12, color: '#64748b', marginBottom: 4 }}>اسم المؤسسة في التقارير:</div>
+        <div style={{ fontSize: 20, fontWeight: 800, color: '#1e3a5f' }}>{values?.organizationName || 'اسم المؤسسة'}</div>
       </div>
       <Divider style={{ borderColor: '#e2e8f0', margin: '16px 0' }} />
       <Row gutter={16}>
         <Col span={24}>
-          <div style={{ fontSize: 11, color: '#64748b', marginBottom: 4 }}>طھظ†ط³ظٹظ‚ ط§ظ„ظ…ط¨ط§ظ„ط؛:</div>
+          <div style={{ fontSize: 11, color: '#64748b', marginBottom: 4 }}>تنسيق المبالغ:</div>
           <div style={{ fontSize: 16, fontWeight: 600, color: '#1e3a5f' }}>
-            {values?.currencyPosition === 'before' ? `${values?.currencySymbol || '$'} 1,250` : `1,250 ${values?.currencySymbol || 'ط±ظٹط§ظ„'}`}
+            {values?.currencyPosition === 'before' ? `${values?.currencySymbol || '$'} 1,250` : `1,250 ${values?.currencySymbol || 'ريال'}`}
           </div>
         </Col>
       </Row>
@@ -137,7 +137,6 @@ const Settings = () => {
   const { admin } = useAuth();
   const { message } = App.useApp();
 
-  // ظ…طھط§ط¨ط¹ط© ط§ظ„طھط؛ظٹظٹط±ط§طھ ظ„ظ„ظ…ط¹ط§ظٹظ†ط© ط§ظ„ط­ظٹط©
   const watchedSettings = Form.useWatch([], settingsForm);
 
   useEffect(() => {
@@ -190,10 +189,10 @@ const Settings = () => {
     setCreating(true);
     try {
       await backupAPI.create();
-      message.success('طھظ… ط¥ظ†ط´ط§ط، ط§ظ„ظ†ط³ط®ط© ط§ظ„ط§ط­طھظٹط§ط·ظٹط© ط¨ظ†ط¬ط§ط­');
+      message.success('تم إنشاء النسخة الاحتياطية بنجاح');
       fetchBackups();
     } catch (error) {
-      message.error('ط­ط¯ط« ط®ط·ط£ ظپظٹ ط¥ظ†ط´ط§ط، ط§ظ„ظ†ط³ط®ط©');
+      message.error('حدث خطأ في إنشاء النسخة');
     } finally {
       setCreating(false);
     }
@@ -202,19 +201,19 @@ const Settings = () => {
   const handleDeleteBackup = async (id: string) => {
     try {
       await backupAPI.delete(id);
-      message.success('طھظ… ط­ط°ظپ ط§ظ„ظ†ط³ط®ط©');
+      message.success('تم حذف النسخة');
       fetchBackups();
     } catch (error) {
-      message.error('ط­ط¯ط« ط®ط·ط£ ظپظٹ ط§ظ„ط­ط°ظپ');
+      message.error('حدث خطأ في الحذف');
     }
   };
 
   const handleRestore = async (id: string) => {
     try {
       await backupAPI.restore(id);
-      message.success('طھظ… ط§ط³طھط¹ط§ط¯ط© ط§ظ„ظ†ط³ط®ط©. ظٹط±ط¬ظ‰ طھط­ط¯ظٹط« ط§ظ„طµظپط­ط©.');
+      message.success('تم استعادة النسخة. يرجى تحديث الصفحة.');
     } catch (error) {
-      message.error('ط­ط¯ط« ط®ط·ط£ ظپظٹ ط§ظ„ط§ط³طھط¹ط§ط¯ط©');
+      message.error('حدث خطأ في الاستعادة');
     }
   };
 
@@ -227,9 +226,9 @@ const Settings = () => {
       a.href = url;
       a.download = `export_${new Date().toISOString().split('T')[0]}.json`;
       a.click();
-      message.success('طھظ… طھطµط¯ظٹط± ط§ظ„ط¨ظٹط§ظ†ط§طھ');
+      message.success('تم تصدير البيانات');
     } catch (error) {
-      message.error('ط­ط¯ط« ط®ط·ط£ ظپظٹ ط§ظ„طھطµط¯ظٹط±');
+      message.error('حدث خطأ في التصدير');
     }
   };
 
@@ -237,10 +236,10 @@ const Settings = () => {
     setSavingSettings(true);
     try {
       await settingsAPI.update(values);
-      message.success('طھظ… ط­ظپط¸ ط§ظ„ط¥ط¹ط¯ط§ط¯ط§طھ ط¨ظ†ط¬ط§ط­');
+      message.success('تم حفظ الإعدادات بنجاح');
       fetchSettings();
     } catch (error) {
-      message.error('ط­ط¯ط« ط®ط·ط£ ظپظٹ ط­ظپط¸ ط§ظ„ط¥ط¹ط¯ط§ط¯ط§طھ');
+      message.error('حدث خطأ في حفظ الإعدادات');
     } finally {
       setSavingSettings(false);
     }
@@ -257,9 +256,9 @@ const Settings = () => {
   const formatDate = (date: string) => new Date(date).toLocaleString('ar-SA');
 
   const getActionColor = (action: string) => {
-    if (action.includes('ط¥ط¶ط§ظپط©') || action.includes('ط¥ظ†ط´ط§ط،')) return 'green';
-    if (action.includes('ط­ط°ظپ')) return 'red';
-    if (action.includes('طھط¹ط¯ظٹظ„') || action.includes('طھط­ط¯ظٹط«') || action.includes('طھط؛ظٹظٹط±')) return 'blue';
+    if (action.includes('إضافة') || action.includes('إنشاء')) return 'green';
+    if (action.includes('حذف')) return 'red';
+    if (action.includes('تعديل') || action.includes('تحديث') || action.includes('تغيير')) return 'blue';
     return 'default';
   };
 
@@ -275,23 +274,23 @@ const Settings = () => {
   };
 
   const currencies = [
-    { value: 'SAR', label: 'ط±ظٹط§ظ„ ط³ط¹ظˆط¯ظٹ', symbol: 'ط±ظٹط§ظ„' },
-    { value: 'AED', label: 'ط¯ط±ظ‡ظ… ط¥ظ…ط§ط±ط§طھظٹ', symbol: 'ط¯ط±ظ‡ظ…' },
-    { value: 'KWD', label: 'ط¯ظٹظ†ط§ط± ظƒظˆظٹطھظٹ', symbol: 'ط¯.ظƒ' },
-    { value: 'QAR', label: 'ط±ظٹط§ظ„ ظ‚ط·ط±ظٹ', symbol: 'ط±.ظ‚' },
-    { value: 'BHD', label: 'ط¯ظٹظ†ط§ط± ط¨ط­ط±ظٹظ†ظٹ', symbol: 'ط¯.ط¨' },
-    { value: 'OMR', label: 'ط±ظٹط§ظ„ ط¹ظ…ط§ظ†ظٹ', symbol: 'ط±.ط¹' },
-    { value: 'EGP', label: 'ط¬ظ†ظٹظ‡ ظ…طµط±ظٹ', symbol: 'ط¬.ظ…' },
-    { value: 'JOD', label: 'ط¯ظٹظ†ط§ط± ط£ط±ط¯ظ†ظٹ', symbol: 'ط¯.ط£' },
-    { value: 'USD', label: 'ط¯ظˆظ„ط§ط± ط£ظ…ط±ظٹظƒظٹ', symbol: '$' },
-    { value: 'EUR', label: 'ظٹظˆط±ظˆ', symbol: 'â‚¬' },
+    { value: 'SAR', label: 'ريال سعودي', symbol: 'ريال' },
+    { value: 'AED', label: 'درهم إماراتي', symbol: 'درهم' },
+    { value: 'KWD', label: 'دينار كويتي', symbol: 'د.ك' },
+    { value: 'QAR', label: 'ريال قطري', symbol: 'ر.ق' },
+    { value: 'BHD', label: 'دينار بحريني', symbol: 'د.ب' },
+    { value: 'OMR', label: 'ريال عماني', symbol: 'ر.ع' },
+    { value: 'EGP', label: 'جنيه مصري', symbol: 'ج.م' },
+    { value: 'JOD', label: 'دينار أردني', symbol: 'د.أ' },
+    { value: 'USD', label: 'دولار أمريكي', symbol: '$' },
+    { value: 'EUR', label: 'يورو', symbol: '€' },
   ];
 
   const menuItems = [
-    { key: 'general', icon: <SettingsIcon size={18} />, label: 'ط§ظ„ط¥ط¹ط¯ط§ط¯ط§طھ ط§ظ„ط¹ط§ظ…ط©' },
-    { key: 'backup', icon: <Database size={18} />, label: 'ط§ظ„ظ†ط³ط® ط§ظ„ط§ط­طھظٹط§ط·ظٹ' },
-    { key: 'activity', icon: <Activity size={18} />, label: 'ط³ط¬ظ„ ط§ظ„ظ†ط´ط§ط·ط§طھ' },
-    ...(admin?.role === 'superadmin' ? [{ key: 'admins', icon: <Shield size={18} />, label: 'ط¥ط¯ط§ط±ط© ط§ظ„ظ…ط³طھط®ط¯ظ…ظٹظ†' }] : []),
+    { key: 'general', icon: <SettingsIcon size={18} />, label: 'الإعدادات العامة' },
+    { key: 'backup', icon: <Database size={18} />, label: 'النسخ الاحتياطي' },
+    { key: 'activity', icon: <Activity size={18} />, label: 'سجل النشاطات' },
+    ...(admin?.role === 'superadmin' ? [{ key: 'admins', icon: <Shield size={18} />, label: 'إدارة المستخدمين' }] : []),
   ];
 
   const renderContent = () => {
@@ -301,15 +300,15 @@ const Settings = () => {
           <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
             <Row gutter={[24, 24]}>
               <Col xs={24} lg={15}>
-                <Card title={<span><Building size={18} style={{ marginLeft: 8 }} /> ظ…ط¹ظ„ظˆظ…ط§طھ ط§ظ„ظ…ط¤ط³ط³ط©</span>} className="modern-card">
+                <Card title={<span><Building size={18} style={{ marginLeft: 8 }} /> معلومات المؤسسة</span>} className="modern-card">
                   <Form form={settingsForm} layout="vertical" onFinish={handleSaveSettings}>
-                    <Form.Item name="organizationName" label="ط§ط³ظ… ط§ظ„ظ…ط¤ط³ط³ط©">
-                      <Input prefix={<Building size={16} />} placeholder="ط§ط³ظ… ط§ظ„ظ…ط¤ط³ط³ط©" />
+                    <Form.Item name="organizationName" label="اسم المؤسسة">
+                      <Input prefix={<Building size={16} />} placeholder="اسم المؤسسة" />
                     </Form.Item>
-                    <Divider>ط§ظ„ط¹ظ…ظ„ط© ظˆط§ظ„طھظ†ط³ظٹظ‚</Divider>
+                    <Divider>العملة والتنسيق</Divider>
                     <Row gutter={16}>
                       <Col span={12}>
-                        <Form.Item name="currency" label="ط§ظ„ط¹ظ…ظ„ط©">
+                        <Form.Item name="currency" label="العملة">
                           <Select
                             options={currencies.map(c => ({ value: c.value, label: `${c.label} (${c.symbol})` }))}
                             onChange={(value) => {
@@ -320,25 +319,25 @@ const Settings = () => {
                         </Form.Item>
                       </Col>
                       <Col span={12}>
-                        <Form.Item name="currencySymbol" label="ط±ظ…ط² ط§ظ„ط¹ظ…ظ„ط©">
-                          <Input placeholder="ط±ظٹط§ظ„" />
+                        <Form.Item name="currencySymbol" label="رمز العملة">
+                          <Input placeholder="ريال" />
                         </Form.Item>
                       </Col>
                     </Row>
-                    <Form.Item name="currencyPosition" label="ظ…ظˆط¶ط¹ ط§ظ„ط¹ظ…ظ„ط©">
+                    <Form.Item name="currencyPosition" label="موضع العملة">
                       <Select
                         options={[
-                          { value: 'before', label: 'ظ‚ط¨ظ„ ط§ظ„ظ…ط¨ظ„ط؛ ($ 100)' },
-                          { value: 'after', label: 'ط¨ط¹ط¯ ط§ظ„ظ…ط¨ظ„ط؛ (100 ط±ظٹط§ظ„)' }
+                          { value: 'before', label: 'قبل المبلغ ($ 100)' },
+                          { value: 'after', label: 'بعد المبلغ (100 ريال)' }
                         ]}
                       />
                     </Form.Item>
-                    <Divider>ط§ظ„طھظ†ط¨ظٹظ‡ط§طھ</Divider>
-                    <Form.Item name="renewalReminderDays" label="ط§ظ„طھط°ظƒظٹط± ظ‚ط¨ظ„ ط§ظ„طھط¬ط¯ظٹط¯ (ط£ظٹط§ظ…)">
+                    <Divider>التنبيهات</Divider>
+                    <Form.Item name="renewalReminderDays" label="التذكير قبل التجديد (أيام)">
                       <InputNumber min={1} max={90} style={{ width: '100%' }} />
                     </Form.Item>
                     <Button type="primary" htmlType="submit" icon={<Save size={16} />} loading={savingSettings} block size="large">
-                      ط­ظپط¸ ط§ظ„طھط؛ظٹظٹط±ط§طھ
+                      حفظ التغييرات
                     </Button>
                   </Form>
                 </Card>
@@ -353,11 +352,11 @@ const Settings = () => {
         return (
           <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
             <Card 
-              title={<span><Database size={18} style={{ marginLeft: 8 }} /> ط§ظ„ظ†ط³ط® ط§ظ„ط§ط­طھظٹط§ط·ظٹ</span>}
+              title={<span><Database size={18} style={{ marginLeft: 8 }} /> النسخ الاحتياطي</span>}
               extra={
                 <div style={{ display: 'flex', gap: 8 }}>
-                  <Button icon={<Download size={16} />} onClick={handleExport}>طھطµط¯ظٹط± JSON</Button>
-                  <Button type="primary" icon={<Plus size={16} />} onClick={handleCreateBackup} loading={creating}>ظ†ط³ط®ط© ط¬ط¯ظٹط¯ط©</Button>
+                  <Button icon={<Download size={16} />} onClick={handleExport}>تصدير JSON</Button>
+                  <Button type="primary" icon={<Plus size={16} />} onClick={handleCreateBackup} loading={creating}>نسخة جديدة</Button>
                 </div>
               }
             >
@@ -366,14 +365,14 @@ const Settings = () => {
                 rowKey="_id" 
                 pagination={{ pageSize: 8 }}
                 columns={[
-                  { title: 'ط§ظ„ظ…ظ„ظپ', dataIndex: 'filename' },
-                  { title: 'ط§ظ„ط­ط¬ظ…', dataIndex: 'fileSize', render: formatFileSize },
-                  { title: 'ط§ظ„طھط§ط±ظٹط®', dataIndex: 'createdAt', render: formatDate },
-                  { title: 'ط¥ط¬ط±ط§ط،ط§طھ', render: (_, r) => (
+                  { title: 'الملف', dataIndex: 'filename' },
+                  { title: 'الحجم', dataIndex: 'fileSize', render: formatFileSize },
+                  { title: 'التاريخ', dataIndex: 'createdAt', render: formatDate },
+                  { title: 'إجراءات', render: (_, r) => (
                     <div style={{ display: 'flex', gap: 8 }}>
                       <Button size="small" icon={<Download size={14} />} onClick={() => window.open(backupAPI.download(r._id), '_blank')} />
-                      <Popconfirm title="ط§ط³طھط¹ط§ط¯ط©طں" onConfirm={() => handleRestore(r._id)}><Button size="small" icon={<RefreshCw size={14} />} /></Popconfirm>
-                      <Popconfirm title="ط­ط°ظپطں" onConfirm={() => handleDeleteBackup(r._id)}><Button size="small" danger icon={<Trash2 size={14} />} /></Popconfirm>
+                      <Popconfirm title="استعادة؟" onConfirm={() => handleRestore(r._id)}><Button size="small" icon={<RefreshCw size={14} />} /></Popconfirm>
+                      <Popconfirm title="حذف؟" onConfirm={() => handleDeleteBackup(r._id)}><Button size="small" danger icon={<Trash2 size={14} />} /></Popconfirm>
                     </div>
                   )}
                 ]}
@@ -384,7 +383,7 @@ const Settings = () => {
       case 'activity':
         return (
           <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
-            <Card title={<span><Activity size={18} style={{ marginLeft: 8 }} /> ط³ط¬ظ„ ط§ظ„ظ†ط´ط§ط·ط§طھ</span>}>
+            <Card title={<span><Activity size={18} style={{ marginLeft: 8 }} /> سجل النشاطات</span>}>
               <Timeline
                 items={activities.slice(0, 30).map((log) => ({
                   color: getActionColor(log.action),
@@ -395,7 +394,7 @@ const Settings = () => {
                         <Tag color={getActionColor(log.action)} style={{ borderRadius: 6 }}>{log.action}</Tag>
                         <span style={{ fontWeight: 600 }}>{log.entityName}</span>
                       </div>
-                      <div style={{ fontSize: 12, color: '#94a3b8' }}>{log.adminName} â€¢ {formatDate(log.createdAt)}</div>
+                      <div style={{ fontSize: 12, color: '#94a3b8' }}>{log.adminName} • {formatDate(log.createdAt)}</div>
                     </div>
                   )
                 }))}
@@ -415,9 +414,9 @@ const Settings = () => {
       <div style={{ marginBottom: 32 }}>
         <h2 style={{ marginBottom: 8, display: 'flex', alignItems: 'center', gap: 12 }}>
           <SettingsIcon size={28} style={{ color: '#3b82f6' }} />
-          ط¥ط¹ط¯ط§ط¯ط§طھ ط§ظ„ظ†ط¸ط§ظ…
+          إعدادات النظام
         </h2>
-        <p style={{ color: '#94a3b8' }}>ط¥ط¯ط§ط±ط© طھظپط¶ظٹظ„ط§طھ ط§ظ„ظ†ط¸ط§ظ…طŒ ط§ظ„ظ†ط³ط® ط§ظ„ط§ط­طھظٹط§ط·ظٹطŒ ظˆط­ظ…ط§ظٹط© ط§ظ„ط­ط³ط§ط¨</p>
+        <p style={{ color: '#94a3b8' }}>إدارة تفضيلات النظام، النسخ الاحتياطي، وحماية الحساب</p>
       </div>
 
       <SystemHealth backups={backups} emailStatus={emailStatus} />
