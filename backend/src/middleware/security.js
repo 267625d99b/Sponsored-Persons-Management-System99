@@ -36,30 +36,34 @@ const generateSecureKey = (length = 64) => {
 // Rate Limiter للـ API العام
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 1000, // زيادة الحد إلى 1000 طلب
+  max: 1000,
   message: { message: 'طلبات كثيرة جداً، حاول مرة أخرى بعد 15 دقيقة' },
   standardHeaders: true,
   legacyHeaders: false,
-  skip: (req) => req.path === '/health', // تجاوز health check
+  skip: (req) => req.path === '/health',
+  // دعم Render و proxies
+  trustProxy: true,
 });
 
 // Rate Limiter مشدد لتسجيل الدخول
 const loginLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 دقيقة
-  max: process.env.NODE_ENV === 'production' ? 10 : 100, // في التطوير 100 محاولة، في الإنتاج 10 فقط
+  windowMs: 15 * 60 * 1000,
+  max: process.env.NODE_ENV === 'production' ? 10 : 100,
   message: { message: 'محاولات دخول كثيرة، حاول مرة أخرى بعد 15 دقيقة' },
   standardHeaders: true,
   legacyHeaders: false,
   skipSuccessfulRequests: true,
+  trustProxy: true,
 });
 
 // Rate Limiter لتغيير كلمة المرور
 const passwordLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000, // ساعة
-  max: 3, // 3 محاولات فقط
+  windowMs: 60 * 60 * 1000,
+  max: 3,
   message: { message: 'محاولات كثيرة لتغيير كلمة المرور، حاول بعد ساعة' },
   standardHeaders: true,
   legacyHeaders: false,
+  trustProxy: true,
 });
 
 // تشفير البيانات الحساسة

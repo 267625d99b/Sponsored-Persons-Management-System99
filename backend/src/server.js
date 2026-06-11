@@ -22,6 +22,9 @@ const notificationRoutes = require('./routes/notifications');
 
 const app = express();
 
+// ثقة بـ proxy (مطلوب لـ Render وCloudflare)
+app.set('trust proxy', 1);
+
 // التحقق من إعدادات الأمان
 validateSecurityConfig();
 
