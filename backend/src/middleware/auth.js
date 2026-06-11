@@ -39,8 +39,17 @@ const protect = async (req, res, next) => {
 
     req.admin = admin;
     req.token = token;
-    // tenant_id يؤخذ من الأدمن (null للـ superadmin)
-    req.tenantId = admin.tenant_id || null;
+    // tenant_id يؤخذ من الأدمن
+    // السوبر أدمن (tenant_id = null) يستخدم أول tenant في النظام
+    if (admin.role === 'superadmin' && !admin.tenant_id) {
+      const { dbGet } = require('../config/db');
+      const firstAdmin = await dbGet(
+        `SELECT tenant_id FROM admins WHERE role != 'superadmin' AND tenant_id IS NOT NULL ORDER BY id ASC LIMIT 1`
+      );
+      req.tenantId = firstAdmin ? firstAdmin.tenant_id : admin.id;
+    } else {
+      req.tenantId = admin.tenant_id || admin.id;
+    }
     req.isSuperAdmin = admin.role === 'superadmin';
     next();
   } catch (error) {
