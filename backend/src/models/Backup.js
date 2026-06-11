@@ -1,21 +1,38 @@
-const { dbRun, dbGet, dbAll, dbPath, backupsDir } = require('../config/db');
+const { dbRun, dbGet, dbAll, backupsDir } = require('../config/db');
 const fs = require('fs');
 const path = require('path');
+
+const isTurso = !!process.env.TURSO_DATABASE_URL;
 
 const Backup = {
   create: async (type = 'manual', tenantId = null) => {
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     const tenantSuffix = tenantId ? `_t${tenantId}` : '';
-    const filename = `backup${tenantSuffix}_${timestamp}.db`;
-    const backupPath = path.join(backupsDir, filename);
 
-    try {
-      await dbRun('VACUUM INTO ?', [backupPath]);
-    } catch (e) {
-      fs.copyFileSync(dbPath, backupPath);
+    let fileSize = 0;
+    let filename;
+
+    if (isTurso) {
+      // في Turso: نصدّر البيانات كـ JSON
+      filename = `backup${tenantSuffix}_${timestamp}.json`;
+      const backupPath = path.join(backupsDir, filename);
+
+      const data = await Backup.exportAll(tenantId);
+      const content = JSON.stringify(data, null, 2);
+      fs.writeFileSync(backupPath, content, 'utf8');
+      fileSize = Buffer.byteLength(content, 'utf8');
+    } else {
+      // في SQLite المحلي: نسخ الملف
+      const { dbPath } = require('../config/db');
+      filename = `backup${tenantSuffix}_${timestamp}.db`;
+      const backupPath = path.join(backupsDir, filename);
+      try {
+        await dbRun('VACUUM INTO ?', [backupPath]);
+      } catch (e) {
+        fs.copyFileSync(dbPath, backupPath);
+      }
+      fileSize = fs.statSync(backupPath).size;
     }
-
-    const fileSize = fs.statSync(backupPath).size;
 
     const info = await dbRun(
       'INSERT INTO backups (filename, file_size, type, tenant_id) VALUES (?, ?, ?, ?)',
