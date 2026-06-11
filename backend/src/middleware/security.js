@@ -41,8 +41,6 @@ const apiLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
   skip: (req) => req.path === '/health',
-  // دعم Render و proxies
-  trustProxy: true,
 });
 
 // Rate Limiter مشدد لتسجيل الدخول
@@ -53,7 +51,6 @@ const loginLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
   skipSuccessfulRequests: true,
-  trustProxy: true,
 });
 
 // Rate Limiter لتغيير كلمة المرور
@@ -63,7 +60,6 @@ const passwordLimiter = rateLimit({
   message: { message: 'محاولات كثيرة لتغيير كلمة المرور، حاول بعد ساعة' },
   standardHeaders: true,
   legacyHeaders: false,
-  trustProxy: true,
 });
 
 // تشفير البيانات الحساسة
