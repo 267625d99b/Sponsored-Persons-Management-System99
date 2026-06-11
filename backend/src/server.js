@@ -56,7 +56,12 @@ const corsOptions = {
     if (!origin) return callback(null, true);
     
     const allowedOrigins = process.env.NODE_ENV === 'production'
-      ? [process.env.CORS_ORIGIN, process.env.CORS_ORIGIN_2].filter(Boolean)
+      ? [
+          process.env.CORS_ORIGIN,
+          process.env.CORS_ORIGIN_2,
+          // Vercel domains
+          /^https:\/\/.*\.vercel\.app$/,
+        ].filter(Boolean)
       : [
           'http://localhost:3000',
           'http://127.0.0.1:3000',
