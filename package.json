@@ -1,0 +1,71 @@
+{
+  "name": "sponsorship-management-system",
+  "version": "1.0.0",
+  "description": "نظام إدارة المكفولين - Sponsorship Management System",
+  "main": "electron-main.js",
+  "scripts": {
+    "install:all": "npm install --prefix backend && npm install --prefix frontend && npm install",
+    "dev:backend": "npm run dev --prefix backend",
+    "dev:frontend": "npm run dev --prefix frontend",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "electron:dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\" \"wait-on http://localhost:5000/api/health && electron .\"",
+    "build:frontend": "npm run build --prefix frontend",
+    "build:electron": "npm run build:frontend && electron-builder",
+    "start:backend": "npm start --prefix backend",
+    "deploy:check": "bash check-deployment.sh",
+    "deploy:docker": "bash deploy-docker.sh",
+    "deploy:vps": "bash deploy-vps.sh",
+    "update:deployment": "bash update-deployment.sh",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
+    "docker:build": "docker-compose build",
+    "generate:keys": "node -e \"console.log('JWT_SECRET=' + require('crypto').randomBytes(64).toString('hex')); console.log('ENCRYPTION_KEY=' + require('crypto').randomBytes(32).toString('hex'));\""
+  },
+  "build": {
+    "appId": "com.sponsorship.management",
+    "productName": "نظام إدارة المكفولين",
+    "directories": {
+      "output": "dist-desktop"
+    },
+    "files": [
+      "electron-main.js",
+      "backend/**/*",
+      "frontend/dist/**/*"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "نظام إدارة المكفولين"
+    }
+  },
+  "keywords": [
+    "sponsorship",
+    "management",
+    "system",
+    "كفالة",
+    "إدارة"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "wait-on": "^7.2.0"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "electron": "^28.0.0",
+    "electron-builder": "^24.9.1"
+  }
+}

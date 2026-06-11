@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: sponsorship-backend
+    env: node
+    region: frankfurt  # أقرب منطقة للسعودية/الشرق الأوسط
+    plan: free
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ENCRYPTION_KEY
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: CORS_ORIGIN
+        value: https://your-frontend.vercel.app  # سيتم تحديثه بعد نشر الفرونتيند
+    disk:
+      name: sponsorship-data
+      mountPath: /opt/render/project/src/data
+      sizeGB: 1

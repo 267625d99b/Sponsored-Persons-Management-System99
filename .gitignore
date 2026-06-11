@@ -1,0 +1,45 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Environment
+.env
+.env.local
+.env.*.local
+.deployment-keys.txt
+
+# Logs
+logs/
+*.log
+
+# Database
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+
+# Build
+dist/
+build/
+dist-desktop/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Uploads
+uploads/*
+!uploads/.gitkeep
+
+# Backups
+backups/*
+!backups/.gitkeep
+
+# Git
+.git/
